@@ -72,7 +72,8 @@ class Admin(getDB):
         1. Tambah Barang di Toko
         2. Hapus Barang di Toko
         3. Cek Ketersediaan Barang
-        4. Logout
+        4. Daftar Membership
+        5. Logout
         
         Masukkan Pilihan Menu: 
         '''))
@@ -82,6 +83,8 @@ class Admin(getDB):
             Admin().deleteData('product')
         elif menuAdmin == 3:
             Admin().selectData()
+        elif menuAdmin == 4:
+            person().insertData()
         else:
             MenuAwal().startMenu()
     def insertData(self, tabel):
@@ -114,5 +117,15 @@ class Admin(getDB):
             print("Unutk produk ", search, " tidak ada")
             input('Ketik enter untuk kembali ke manu Admin')
             Admin().menuAdmin()
+
+class person(getDB):
+    def insertData(self):
+        nama = str(input("Nama Anda: "))
+        alamat = str(input("Alamat Anda: "))
+        query = "INSERT INTO person (nama, alamat) VALUES('{}', '{}');".format(nama, alamat)
+        self.cursor.execute(query)
+        self.myDb.commit()
+        Admin().menuAdmin()
+
 stes=MenuAwal()
 stes.startMenu()
