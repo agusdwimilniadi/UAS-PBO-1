@@ -49,6 +49,7 @@ class MenuAwal(getDB):
             Admin().menuAdmin()
         else:
             print ("Login failed")
+            input('Klik Enter untuk masuk ke login ')
             MenuAwal().loginAdmin()
     def daftarAdmin(self):
         userid= str(input("Masukkan username: "))
@@ -63,7 +64,6 @@ class MenuAwal(getDB):
             MenuAwal().startMenu()
         # tabel = str(input("tabel apa: "))
         # Model().insertData(tabel)
-
 class Admin(getDB):
     def menuAdmin(self):
         getDB().hapusScrn()
@@ -114,6 +114,5 @@ class Admin(getDB):
             print("Unutk produk ", search, " tidak ada")
             input('Ketik enter untuk kembali ke manu Admin')
             Admin().menuAdmin()
-
 stes=MenuAwal()
 stes.startMenu()
