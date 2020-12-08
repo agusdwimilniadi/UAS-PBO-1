@@ -1,9 +1,12 @@
 import sqlite3
 import os
+import Guest
 from getpass import getpass
+
+
 class getDB:
     def __init__(self):
-        self.myDb= sqlite3.connect('F:/Kuliah/SEMESTER 3/Pemrograman Berorientasi Obyek I TM/Project/UAS-PBO-1/DB/DB FIX.sqlite')
+        self.myDb= sqlite3.connect('DB/DB FIX.sqlite')
         self.cursor = self.myDb.cursor()
     def hapusScrn(self):
         os.system('cls' if os.name == 'nt' else 'clear')
@@ -22,7 +25,7 @@ class MenuAwal(getDB):
             tabel = str(input("tabel apa: "))
             Admin().deleteData(tabel)
         elif pilihan == 3:
-            Admin().selectData()
+            Guest.aGuest().menuguest()
     def admin(self):
         getDB().hapusScrn()
         pilihan = int(input('''
