@@ -36,7 +36,7 @@ class aGuest :
         for x in aGuest.keranjang :
             print(x[0],"--------",x[1])
         print("Jadi total belanjaanmu adalah Rp.",total)
-        konfirm = input("Apakah jadi untuk membeli barang tersebut?\n Ya/Tidak").lower()
+        konfirm = input("Apakah jadi untuk membeli barang tersebut?\n Ya/Tidak ").lower()
         if konfirm == "ya":
             inputdata = "INSERT INTO keranjangbelanja ( totalHarga ) VALUES('{}');".format( total )
             self.cursor.execute(inputdata)
