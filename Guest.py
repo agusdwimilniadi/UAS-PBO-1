@@ -5,7 +5,7 @@ class aGuest :
     keranjang =[]
     harga =[]
     def __init__(self):
-        self.myDb= sqlite3.connect('DB/DB FIX.sqlite')
+        self.myDb= sqlite3.connect('F:/Kuliah/SEMESTER 3/Pemrograman Berorientasi Obyek I TM/Project/UAS-PBO-1/DB/DB FIX.sqlite')
         self.cursor = self.myDb.cursor()
 
 
@@ -60,7 +60,4 @@ class aGuest :
             aGuest().beli()
         else:
             print("a")
-
-
-
 
