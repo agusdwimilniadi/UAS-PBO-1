@@ -36,21 +36,30 @@ class aGuest :
         for x in aGuest.keranjang :
             print(x[0],"--------",x[1])
         print("Jadi total belanjaanmu adalah Rp.",total)
-        konfirm = input("Apakah jadi untuk membeli barang tersebut?\n Ya/Tidak").lower()
+        konfirm = input("Apakah jadi untuk membeli barang tersebut?\n Ya/Tidak ").lower()
         if konfirm == "ya":
             inputdata = "INSERT INTO keranjangbelanja ( totalHarga ) VALUES('{}');".format( total )
             self.cursor.execute(inputdata)
             self.myDb.commit()
             print("Terimakasih telah melakukan pembelian")
+        elif konfirm == 'tidak':
+            aGuest.keranjang.clear()
+            aGuest.harga.clear()
+            print("Isi keranjangmu sudah dihapus semua")
+            aGuest().menuguest()
+        else :
+            print("Masukkan command dengan benar")
+            aGuest().menuguest()
+
 
 
     def menuguest(self):
         menuGuest =int(input(''' 
             MENU Guest
             1. Mencari Barang
-            3. Membeli Barang
-            4. Daftar Member
-            5. Exit
+            2. Membeli Barang
+            3. Daftar Member
+            4. Exit
 
             Masukkan Pilihan Menu: 
              '''))
@@ -58,6 +67,12 @@ class aGuest :
             aGuest().cari()
         elif menuGuest == 2 :
             aGuest().beli()
+        elif menuGuest == 3 :
+            from insert import person #biar bisa langsung menjalankan fungsi person insert data class person harus dibedakan file pythonnya kalau tidak nanti manggil 2 kali
+            person().insertData()
+        elif menuGuest == 4 :
+            exit(0)
         else:
-            print("a")
+            print("Masukkan Command dengan benar")
+            aGuest().menuguest()
 
