@@ -22,8 +22,7 @@ class MenuAwal(getDB):
         if pilihan == 1:
             MenuAwal().admin()
         elif pilihan == 2:
-            tabel = str(input("tabel apa: "))
-            Admin().deleteData(tabel)
+            Member().menuMember()
         elif pilihan == 3:
             Guest.aGuest().menuguest()
     def admin(self):
@@ -32,6 +31,7 @@ class MenuAwal(getDB):
         Selamat datang di Admin
         1. Login Admin
         2. Daftar Admin
+        3. Daftar Member
         '''))
         if pilihan == 1:
             MenuAwal().loginAdmin()
@@ -87,7 +87,7 @@ class Admin(getDB):
         elif menuAdmin == 3:
             Admin().selectData()
         elif menuAdmin == 4:
-            person().insertData()
+            Admin().daftarMember()
         else:
             MenuAwal().startMenu()
     def insertData(self, tabel):
@@ -117,18 +117,55 @@ class Admin(getDB):
             input('Ketik enter untuk kembali ke manu Admin')
             Admin().menuAdmin()
         except IndexError:
-            print("Unutk produk ", search, " tidak ada")
+            print("Untuk produk ", search, " tidak ada")
             input('Ketik enter untuk kembali ke manu Admin')
             Admin().menuAdmin()
-
-class person(getDB):
-    def insertData(self):
-        nama = str(input("Nama Anda: "))
-        alamat = str(input("Alamat Anda: "))
-        query = "INSERT INTO person (nama, alamat) VALUES('{}', '{}');".format(nama, alamat)
+    def getNomorMember(self):
+        query = "SELECT COUNT(id_member) FROM member"
+        self.cursor.execute(query)
+        all_results = self.cursor.fetchall()
+        self.myDb.commit()
+        return (all_results[0][0]+1)
+    def daftarMember(self):
+        codeMember= 'TOKOJAYA00'
+        nomorMember = str((Admin().getNomorMember()))
+        nomorMemberFix= codeMember+nomorMember
+        nama = str(input("Nama Member Baru: "))
+        asalKota = str(input('Asal Kota Member Baru: '))
+        query = "INSERT INTO member (nomor_member, nama, alamat) VALUES('{}', '{}', '{}');".format(nomorMemberFix, nama, asalKota)
         self.cursor.execute(query)
         self.myDb.commit()
-        Admin().menuAdmin()
+        getDB().hapusScrn()
+        print('''
+                DAFTAR MEMBERSHIP BERHASIL
+            ID = {}
+            Nama = {}
+
+            nb: Masukkan nomor ID pada saat transaksi untuk mendapatkan diskon
+        '''.format(nomorMemberFix, nama))
+
+
+class Member(getDB):
+    def menuMember(self):
+        getDB().hapusScrn()
+        pilihan= str(input('''
+                SELAMAT DATANG Member Toko Jaya Baru
+        Masukkan Nomor Member anda : 
+        '''))
+        query = "SELECT nomor_member, nama from member where nomor_member = '{}'".format(pilihan)
+        self.cursor.execute(query)
+        all_results = self.cursor.fetchall()
+        self.myDb.commit()
+
+        try:
+            getDB().hapusScrn()
+            print("SELAMAT {} dengan ID Member : {} ANDA MENDAPATKAN DISKON Di Toko Kami".format(all_results[0][1], all_results[0][0]))
+            input('Ketik enter untuk melanjutkan')
+        except IndexError:
+            getDB().hapusScrn()
+            print("Untuk ID ", pilihan, " tidak ada")
+            input('Ketik enter untuk memasukkan ID kembali')
+            Member().menuMember()
 
 stes=MenuAwal()
 stes.startMenu()

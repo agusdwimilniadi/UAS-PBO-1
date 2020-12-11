@@ -7,8 +7,6 @@ class aGuest :
     def __init__(self):
         self.myDb= sqlite3.connect('F:/Kuliah/SEMESTER 3/Pemrograman Berorientasi Obyek I TM/Project/UAS-PBO-1/DB/DB FIX.sqlite')
         self.cursor = self.myDb.cursor()
-
-
     def cari(self):
         carian = input("Mau mencari barang apa : ")
         query = "SELECT namaProduct, hargaProduct from product where namaProduct = '{}'".format(carian.lower())
@@ -50,9 +48,6 @@ class aGuest :
         else :
             print("Masukkan command dengan benar")
             aGuest().menuguest()
-
-
-
     def menuguest(self):
         menuGuest =int(input(''' 
             MENU Guest
