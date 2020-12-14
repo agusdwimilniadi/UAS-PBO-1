@@ -10,7 +10,7 @@ class getDB:
         self.cursor = self.myDb.cursor()
     def hapusScrn(self):
         os.system('cls' if os.name == 'nt' else 'clear')
-class MenuAwal(getDB):
+class MenuAwal:
     def startMenu(self):
         getDB().hapusScrn()
         pilihan = int(input('''
@@ -20,152 +20,10 @@ class MenuAwal(getDB):
         3. Pembeli
         '''))
         if pilihan == 1:
-            MenuAwal().admin()
+            HalamanAdmin().admin()
         elif pilihan == 2:
             Member().menuMember()
         elif pilihan == 3:
             Guest.aGuest().menuguest()
-    def admin(self):
-        getDB().hapusScrn()
-        pilihan = int(input('''
-        Selamat datang di Admin
-        1. Login Admin
-        2. Daftar Admin
-        3. Daftar Member
-        '''))
-        if pilihan == 1:
-            MenuAwal().loginAdmin()
-        elif pilihan == 2:
-            MenuAwal().daftarAdmin()
-        else:
-            print("Inputan salah")
-    def loginAdmin(self):
-        getDB().hapusScrn()
-        userid= str(input("Masukkan username: "))
-        password = getpass()
-        query = 'SELECT * from admin WHERE id_admin="{}" AND password_admin="{}"'.format(userid, password)
-        self.cursor.execute(query)
-        self.myDb.commit()
-        if self.cursor.fetchone() is not None:
-            print ("Login Berhasil, Selamat Datang ", userid, " di menu Admin.")
-            input('Ketik Enter untuk Melanjutkan')
-            Admin().menuAdmin()
-        else:
-            print ("Login failed")
-            input('Klik Enter untuk masuk ke login ')
-            MenuAwal().loginAdmin()
-    def daftarAdmin(self):
-        userid= str(input("Masukkan username: "))
-        password = getpass()
-        query = "INSERT INTO admin (id_admin, password_admin) VALUES('{}', '{}');".format(userid, password)
-        self.cursor.execute(query)
-        self.myDb.commit()
-        lanjut=str(input('Pendaftaran Admin Berhasil, lanjut login? (y/n)'))
-        if lanjut.lower() == 'y':
-            MenuAwal().loginAdmin()
-        elif lanjut.lower() == 'n':
-            MenuAwal().startMenu()
-        # tabel = str(input("tabel apa: "))
-        # Model().insertData(tabel)
-class Admin(getDB):
-    def menuAdmin(self):
-        getDB().hapusScrn()
-        menuAdmin=int(input(''' 
-            MENU ADMIN
-        1. Tambah Barang di Toko
-        2. Hapus Barang di Toko
-        3. Cek Ketersediaan Barang
-        4. Daftar Membership
-        5. Logout
-        
-        Masukkan Pilihan Menu: 
-        '''))
-        if menuAdmin == 1:
-            Admin().insertData('product')
-        elif menuAdmin == 2:
-            Admin().deleteData('product')
-        elif menuAdmin == 3:
-            Admin().selectData()
-        elif menuAdmin == 4:
-            Admin().daftarMember()
-        else:
-            MenuAwal().startMenu()
-    def insertData(self, tabel):
-        self.tabel = tabel
-        namaProduk = str(input("nama produk: "))
-        hargaProduk = int(input("harga Produk: "))
-        jumlahProduk = int(input('Jumlah produk: '))
-        query = "INSERT INTO {} (namaProduct, hargaProduct, jumlahProduct) VALUES('{}', '{}', '{}');".format(tabel, namaProduk.lower(), hargaProduk, jumlahProduk)
-        self.cursor.execute(query)
-        self.myDb.commit()
-        Admin().menuAdmin()
-    def deleteData(self, tabel):
-        self.tabel = tabel
-        dataHapus = str(input('Data apa yang dihapus?: '))
-        query = "DELETE FROM {} WHERE namaProduct = '{}'".format(tabel, dataHapus)
-        self.cursor.execute(query)
-        self.myDb.commit()
-        Admin().menuAdmin()
-    def selectData(self):
-        search = str(input("Cek ketersediaan: "))
-        query = "SELECT namaProduct from product where namaProduct = '{}'".format(search.lower())
-        self.cursor.execute(query)
-        all_results = self.cursor.fetchall()
-        self.myDb.commit()
-        try:
-            print('Untuk stok ', all_results[0][0], 'ada')
-            input('Ketik enter untuk kembali ke manu Admin')
-            Admin().menuAdmin()
-        except IndexError:
-            print("Untuk produk ", search, " tidak ada")
-            input('Ketik enter untuk kembali ke manu Admin')
-            Admin().menuAdmin()
-    def getNomorMember(self):
-        query = "SELECT COUNT(id_member) FROM member"
-        self.cursor.execute(query)
-        all_results = self.cursor.fetchall()
-        self.myDb.commit()
-        return (all_results[0][0]+1)
-    def daftarMember(self):
-        codeMember= 'TOKOJAYA00'
-        nomorMember = str((Admin().getNomorMember()))
-        nomorMemberFix= codeMember+nomorMember
-        nama = str(input("Nama Member Baru: "))
-        asalKota = str(input('Asal Kota Member Baru: '))
-        query = "INSERT INTO member (nomor_member, nama, alamat) VALUES('{}', '{}', '{}');".format(nomorMemberFix, nama, asalKota)
-        self.cursor.execute(query)
-        self.myDb.commit()
-        getDB().hapusScrn()
-        print('''
-                DAFTAR MEMBERSHIP BERHASIL
-            ID = {}
-            Nama = {}
-
-            nb: Masukkan nomor ID pada saat transaksi untuk mendapatkan diskon
-        '''.format(nomorMemberFix, nama))
-
-
-class Member(getDB):
-    def menuMember(self):
-        getDB().hapusScrn()
-        pilihan= str(input('''
-                SELAMAT DATANG Member Toko Jaya Baru
-        Masukkan Nomor Member anda : 
-        '''))
-        query = "SELECT nomor_member, nama from member where nomor_member = '{}'".format(pilihan)
-        self.cursor.execute(query)
-        all_results = self.cursor.fetchall()
-        self.myDb.commit()
-
-        try:
-            getDB().hapusScrn()
-            print("SELAMAT {} dengan ID Member : {} ANDA MENDAPATKAN DISKON Di Toko Kami".format(all_results[0][1], all_results[0][0]))
-            input('Ketik enter untuk melanjutkan')
-        except IndexError:
-            getDB().hapusScrn()
-            print("Untuk ID ", pilihan, " tidak ada")
-            input('Ketik enter untuk memasukkan ID kembali')
-            Member().menuMember()
-
 stes=MenuAwal()
 stes.startMenu()
