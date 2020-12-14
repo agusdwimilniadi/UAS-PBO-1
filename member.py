@@ -1,7 +1,11 @@
 import sqlite3
-class Member(getDB):
+import Database
+
+is_member = False
+class Member(Database.getDB):
+    
     def menuMember(self):
-        getDB().hapusScrn()
+        Database.getDB().hapusScrn()
         pilihan= str(input('''
                 SELAMAT DATANG Member Toko Jaya Baru
         Masukkan Nomor Member anda : 
@@ -12,11 +16,17 @@ class Member(getDB):
         self.myDb.commit()
 
         try:
-            getDB().hapusScrn()
+            import Guest
+            Database.getDB().hapusScrn()
             print("SELAMAT {} dengan ID Member : {} ANDA MENDAPATKAN DISKON Di Toko Kami".format(all_results[0][1], all_results[0][0]))
+            is_member = True
+            if is_member == True :
+                print('asa')
             input('Ketik enter untuk melanjutkan')
+            Guest.aGuest().menuguest()
+
         except IndexError:
-            getDB().hapusScrn()
+            Database.getDB().hapusScrn()
             print("Untuk ID ", pilihan, " tidak ada")
             input('Ketik enter untuk memasukkan ID kembali')
             Member().menuMember()
