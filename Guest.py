@@ -35,6 +35,9 @@ class aGuest(Database.getDB) :
             aGuest().menuguest()
 
     def beli(self):
+        import member
+        if member.is_member == True:
+            print("MEMBER WOI")
         Database.getDB().hapusScrn()
         total = sum(aGuest.harga)
         print("Isi keranjangmu adalah :\n")
@@ -48,7 +51,7 @@ class aGuest(Database.getDB) :
             inputdata = "INSERT INTO keranjangbelanja ( totalHarga ) VALUES('{}');".format( total )
             self.cursor.execute(inputdata)
             self.myDb.commit()
-            print("Terimakasih telah melakukan pembelian")
+            input("Terimakasih telah melakukan pembelian")
             aGuest().menuguest()
         elif konfirm == 'tidak':
             aGuest.keranjang.clear()
@@ -74,11 +77,11 @@ class aGuest(Database.getDB) :
         elif menuGuest == 2 :
             aGuest().beli()
         elif menuGuest == 3 :
-            
             admin.Admin().daftarMember()
         elif menuGuest == 4 :
             exit(0)
         else:
             print("Masukkan Command dengan benar")
             aGuest().menuguest()
+
 

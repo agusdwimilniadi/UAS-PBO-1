@@ -43,7 +43,7 @@ class HalamanAdmin(Database.getDB):
         if lanjut.lower() == 'y':
             HalamanAdmin().loginAdmin()
         elif lanjut.lower() == 'n':
-            HalamanAdmin().startMenu()
+            HalamanAdmin().adminmenu()
 class Admin(Database.getDB):
     def menuAdmin(self):
         Database.getDB().hapusScrn()
@@ -60,13 +60,13 @@ class Admin(Database.getDB):
         if menuAdmin == 1:
             Admin().insertData('product')
         elif menuAdmin == 2:
-            Admin().deleteData('product')
+            Admin().deleteData()
         elif menuAdmin == 3:
             Admin().selectData()
         elif menuAdmin == 4:
             Admin().daftarMember()
         else:
-            HalamanAdmin().startMenu()
+            HalamanAdmin().adminmenu()
     def insertData(self, tabel):
         self.tabel = tabel
         namaProduk = str(input("nama produk: "))
@@ -76,12 +76,12 @@ class Admin(Database.getDB):
         self.cursor.execute(query)
         self.myDb.commit()
         Admin().menuAdmin()
-    def deleteData(self, tabel):
-        self.tabel = tabel
+    def deleteData(self):
         dataHapus = str(input('Data apa yang dihapus?: '))
-        query = "DELETE FROM {} WHERE namaProduct = '{}'".format(tabel, dataHapus)
+        query = "DELETE FROM Product WHERE namaProduct = '{}'".format(dataHapus)
         self.cursor.execute(query)
         self.myDb.commit()
+        input("Data ", dataHapus, " berhasil dihapus")
         Admin().menuAdmin()
     def selectData(self):
         search = str(input("Cek ketersediaan: "))
