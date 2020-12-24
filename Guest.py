@@ -23,8 +23,9 @@ class aGuest(Database.getDB) :
                 maunambah = input("Apakah Mau menambahkan lagi ? \n")
                 if maunambah == "ya":
                     aGuest().cari()
-                elif maunambah == "tidak":
-                    
+                elif maunambah == "tidak".lower() :
+                    aGuest().menuguest()
+
 
             elif nambah == 'tidak'.lower():
                 aGuest().menuguest()
@@ -44,17 +45,11 @@ class aGuest(Database.getDB) :
         
 
         if konfirm == "ya":
-            if member.Member().is_member == True :
-                totalfix = total - (total * 0,1)
-                print("Selamat anda telah mendapatkan diskon 10% jadi total belanjaan anda sebesar ", totalfix)
-                inputdata = "INSERT INTO keranjangbelanja ( totalHarga ) VALUES('{}');".format( totalfix )
-                self.cursor.execute(inputdata)
-                self.myDb.commit()
-            elif member.Member.is_member == False :
-                inputdata = "INSERT INTO keranjangbelanja ( totalHarga ) VALUES('{}');".format( total )
-                self.cursor.execute(inputdata)
-                self.myDb.commit()
+            inputdata = "INSERT INTO keranjangbelanja ( totalHarga ) VALUES('{}');".format( total )
+            self.cursor.execute(inputdata)
+            self.myDb.commit()
             print("Terimakasih telah melakukan pembelian")
+            aGuest().menuguest()
         elif konfirm == 'tidak':
             aGuest.keranjang.clear()
             aGuest.harga.clear()
