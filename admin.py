@@ -11,13 +11,17 @@ class HalamanAdmin(Database.getDB):
         1. Login Admin
         2. Daftar Admin
         3. Daftar Member
+        4. Exit
         '''))
         if pilihan == 1:
             HalamanAdmin().loginAdmin()
         elif pilihan == 2:
             HalamanAdmin().daftarAdmin()
-        else:
+        elif pilihan == 3:
             Admin().daftarMember()
+        elif pilihan == 4 :
+            exit(0)
+
     def loginAdmin(self):
         Database.getDB().hapusScrn()
         userid= str(input("Masukkan username: "))
@@ -109,14 +113,19 @@ class Admin(Database.getDB):
         nomorMemberFix= codeMember+nomorMember
         nama = str(input("Nama Member Baru: "))
         asalKota = str(input('Asal Kota Member Baru: '))
-        query = "INSERT INTO member (nomor_member, nama, alamat) VALUES('{}', '{}', '{}');".format(nomorMemberFix, nama, asalKota)
-        self.cursor.execute(query)
-        self.myDb.commit()
-        Database.getDB().hapusScrn()
-        print('''
-                DAFTAR MEMBERSHIP BERHASIL
-            ID = {}
-            Nama = {}
+        if nama == "":
+            print("diharapkan kolom nama diisi ")
+            Admin().daftarMember()
+        else :
+            query = "INSERT INTO member (nomor_member, nama, alamat) VALUES('{}', '{}', '{}');".format(nomorMemberFix, nama, asalKota)
+            self.cursor.execute(query)
+            self.myDb.commit()
+            Database.getDB().hapusScrn()
+            print('''
+                    DAFTAR MEMBERSHIP BERHASIL
+                ID = {}
+                Nama = {}
 
-            nb: Masukkan nomor ID pada saat transaksi untuk mendapatkan diskon
-        '''.format(nomorMemberFix, nama))
+                nb: Masukkan nomor ID pada saat transaksi untuk mendapatkan diskon
+            '''.format(nomorMemberFix, nama))
+            Admin().menuAdmin()

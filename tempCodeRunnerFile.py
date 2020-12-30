@@ -1,1 +1,4 @@
-Guest.aGuest().menuguest()
+isi = input("Masukkan namamu ")
+
+if isi is None :
+    print("error")
