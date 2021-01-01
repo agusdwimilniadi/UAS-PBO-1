@@ -35,9 +35,6 @@ class aGuest(Database.getDB) :
             aGuest().menuguest()
 
     def beli(self):
-        import member
-        if member.is_member == True:
-            print("MEMBER WOI")
         Database.getDB().hapusScrn()
         total = sum(aGuest.harga)
         print("Isi keranjangmu adalah :\n")

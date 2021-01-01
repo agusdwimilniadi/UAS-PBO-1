@@ -1,19 +1,12 @@
 import sqlite3
 import os
+import Database
 import Guest
 import member
 
-
-
-class getDB:
-    def __init__(self):
-        self.myDb= sqlite3.connect('DB/DB FIX.sqlite')
-        self.cursor = self.myDb.cursor()
-    def hapusScrn(self):
-        os.system('cls' if os.name == 'nt' else 'clear')
-class MenuAwal:
+class MenuAwal(Database.getDB):
     def startMenu(self):
-        getDB().hapusScrn()
+        Database.getDB().hapusScrn()
         pilihan = int(input('''
         Selamat datang di Toko Kelontong Jaya Baru
         1. Admin

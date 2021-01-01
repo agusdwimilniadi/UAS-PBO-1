@@ -10,16 +10,13 @@ class HalamanAdmin(Database.getDB):
         Selamat datang di Admin
         1. Login Admin
         2. Daftar Admin
-        3. Daftar Member
-        4. Exit
+        3. Exit
         '''))
         if pilihan == 1:
             HalamanAdmin().loginAdmin()
         elif pilihan == 2:
             HalamanAdmin().daftarAdmin()
-        elif pilihan == 3:
-            Admin().daftarMember()
-        elif pilihan == 4 :
+        elif pilihan == 3 :
             exit(0)
 
     def loginAdmin(self):
@@ -82,10 +79,10 @@ class Admin(Database.getDB):
         Admin().menuAdmin()
     def deleteData(self):
         dataHapus = str(input('Data apa yang dihapus?: '))
-        query = "DELETE FROM Product WHERE namaProduct = '{}'".format(dataHapus)
+        query = "DELETE FROM Product WHERE namaProduct = '{}'".format(dataHapus.lower())
         self.cursor.execute(query)
         self.myDb.commit()
-        input("Data ", dataHapus, " berhasil dihapus")
+        input("Data berhasil dihapus")
         Admin().menuAdmin()
     def selectData(self):
         search = str(input("Cek ketersediaan: "))
@@ -121,7 +118,7 @@ class Admin(Database.getDB):
             self.cursor.execute(query)
             self.myDb.commit()
             Database.getDB().hapusScrn()
-            print('''
+            input('''
                     DAFTAR MEMBERSHIP BERHASIL
                 ID = {}
                 Nama = {}

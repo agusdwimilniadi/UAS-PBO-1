@@ -1,7 +1,7 @@
 import sqlite3
 import Database
+import Guest
 
-is_member = False
 class Member(Database.getDB):
     keranjang =[]
     harga =[]
@@ -11,7 +11,7 @@ class Member(Database.getDB):
                 SELAMAT DATANG Member Toko Jaya Baru
         Masukkan Nomor Member anda : 
         '''))
-        query = "SELECT nomor_member, nama from member where nomor_member = '{}'".format(pilihan)
+        query = "SELECT nomor_member, nama from member where nomor_member = '{}'".format(pilihan.upper())
         self.cursor.execute(query)
         all_results = self.cursor.fetchall()
         self.myDb.commit()
@@ -20,7 +20,6 @@ class Member(Database.getDB):
             import Guest
             Database.getDB().hapusScrn()
             print("SELAMAT {} dengan ID Member : {} ANDA MENDAPATKAN DISKON Di Toko Kami".format(all_results[0][1], all_results[0][0]))
-            is_member = True
             input('Ketik enter untuk melanjutkan')
             Member().transaksiMember()
 
