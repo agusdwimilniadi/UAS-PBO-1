@@ -125,4 +125,4 @@ class Admin(Database.getDB):
 
                 nb: Masukkan nomor ID pada saat transaksi untuk mendapatkan diskon
             '''.format(nomorMemberFix, nama))
-            Admin().menuAdmin()
+            
