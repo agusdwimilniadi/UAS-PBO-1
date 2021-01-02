@@ -2,9 +2,8 @@ import sqlite3
 import Database
 import Guest
 
-class Member(Database.getDB):
-    keranjang =[]
-    harga =[]
+class Member(Guest.aGuest):
+    
     def menuMember(self):
         Database.getDB().hapusScrn()
         pilihan= str(input('''
@@ -58,8 +57,8 @@ class Member(Database.getDB):
             print(barang[0][0]," dengan harga ",barang[0][1] ," Tersedia ditoko kami")
             nambah = input("Apakah  ingin ditambahkan dikeranjang ? \nya atau tidak ?").lower()
             if nambah == 'Ya'.lower():
-                Member().keranjang.append(barang[0])
-                Member().harga.append(barang[0][1])
+                super()._keranjang.append(barang[0])
+                super()._harga.append(barang[0][1])
                 maunambah = input("Apakah Mau menambahkan lagi ? \n")
                 if maunambah == "ya":
                     Member().cari()
@@ -74,9 +73,9 @@ class Member(Database.getDB):
 
     def beli(self):
         Database.getDB().hapusScrn()
-        total = sum(Member.harga)
+        total = sum(super()._harga)
         print("Isi keranjangmu adalah :\n")
-        for x in Member.keranjang :
+        for x in super()._keranjang :
             print(x[0],"--------",x[1])
         print("Jadi total belanjaanmu adalah Rp.",total ," dan mendapat diskon 10% menjadi Rp.", round(total-(total*10/100)))
         konfirm = input("Apakah jadi untuk membeli barang tersebut?\n Ya/Tidak ").lower()
@@ -90,8 +89,8 @@ class Member(Database.getDB):
             import menu
             menu.MenuAwal().startMenu()
         elif konfirm == 'tidak':
-            Member().keranjang.clear()
-            Member().harga.clear()
+            super()._keranjang.clear()
+            super()._harga.clear()
             print("Isi keranjangmu sudah dihapus semua")
             Member().menuMember()
         else :

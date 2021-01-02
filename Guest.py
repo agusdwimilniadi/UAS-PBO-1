@@ -1,11 +1,11 @@
 import Database
 import sqlite3
 import admin
-import member
+from abc import ABC, abstractmethod
 
 class aGuest(Database.getDB) :
-    keranjang =[]
-    harga =[]
+    _keranjang =[]
+    _harga =[]
     
     def cari(self):
         Database.getDB().hapusScrn()
@@ -18,8 +18,8 @@ class aGuest(Database.getDB) :
             print(barang[0][0]," dengan harga ",barang[0][1] ," Tersedia ditoko kami")
             nambah = input("Apakah  ingin ditambahkan dikeranjang ? \nya atau tidak ?").lower()
             if nambah == 'Ya'.lower():
-                aGuest.keranjang.append(barang[0])
-                aGuest.harga.append(barang[0][1])
+                aGuest._keranjang.append(barang[0])
+                aGuest._harga.append(barang[0][1])
                 maunambah = input("Apakah Mau menambahkan lagi ? \n")
                 if maunambah == "ya":
                     aGuest().cari()
@@ -36,9 +36,9 @@ class aGuest(Database.getDB) :
 
     def beli(self):
         Database.getDB().hapusScrn()
-        total = sum(aGuest.harga)
+        total = sum(aGuest.__harga)
         print("Isi keranjangmu adalah :\n")
-        for x in aGuest.keranjang :
+        for x in aGuest._keranjang :
             print(x[0],"--------",x[1])
         print("Jadi total belanjaanmu adalah Rp.",total)
         konfirm = input("Apakah jadi untuk membeli barang tersebut?\n Ya/Tidak ").lower()
@@ -51,13 +51,14 @@ class aGuest(Database.getDB) :
             input("Terimakasih telah melakukan pembelian")
             aGuest().menuguest()
         elif konfirm == 'tidak':
-            aGuest.keranjang.clear()
-            aGuest.harga.clear()
+            aGuest._keranjang.clear()
+            aGuest._harga.clear()
             print("Isi keranjangmu sudah dihapus semua")
             aGuest().menuguest()
         else :
             print("Masukkan command dengan benar")
             aGuest().menuguest()
+    
     def menuguest(self):
         Database.getDB().hapusScrn()
         menuGuest =int(input(''' 
@@ -80,5 +81,9 @@ class aGuest(Database.getDB) :
         else:
             print("Masukkan Command dengan benar")
             aGuest().menuguest()
+
+    @abstractmethod        
+    def discount(self):
+        pass
 
 
