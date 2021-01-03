@@ -77,9 +77,8 @@ class Member(Guest.aGuest):
         print("Isi keranjangmu adalah :\n")
         for x in super()._keranjang :
             print(x[0],"--------",x[1])
-        print("Jadi total belanjaanmu adalah Rp.",total ," dan mendapat diskon 10% menjadi Rp.", round(total-(total*10/100)))
+        print("Jadi total belanjaanmu adalah Rp.",total ," dan mendapat diskon 10% menjadi Rp.", (Member.discount(self)))
         konfirm = input("Apakah jadi untuk membeli barang tersebut?\n Ya/Tidak ").lower()
-        
 
         if konfirm == "ya":
             inputdata = "INSERT INTO keranjangbelanja ( totalHarga ) VALUES('{}');".format( total )
@@ -96,4 +95,7 @@ class Member(Guest.aGuest):
         else :
             print("Masukkan command dengan benar")
             Member().menuMember()
-
+    def discount(self):
+        total = sum(super()._harga)
+        disc= round(total*8/10)
+        return disc

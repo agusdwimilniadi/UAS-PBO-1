@@ -19,6 +19,6 @@ class MenuAwal(Database.getDB):
         elif pilihan == 2:
             member.Member().menuMember()
         elif pilihan == 3:
-            Guest.aGuest().menuguest()
+            Guest.guestMenu().menuguest()
 stes=MenuAwal()
 stes.startMenu()

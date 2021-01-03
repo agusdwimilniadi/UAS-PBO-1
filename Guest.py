@@ -24,19 +24,19 @@ class aGuest(Database.getDB) :
                 if maunambah == "ya":
                     aGuest().cari()
                 elif maunambah == "tidak".lower() :
-                    aGuest().menuguest()
+                    guestMenu().menuguest()
 
 
             elif nambah == 'tidak'.lower():
-                aGuest().menuguest()
+                guestMenu().menuguest()
 
         except IndexError:
             print("Barang yang anda cari tidak ada di toko kami")
-            aGuest().menuguest()
+            guestMenu().menuguest()
 
     def beli(self):
         Database.getDB().hapusScrn()
-        total = sum(aGuest.__harga)
+        total = sum(aGuest._harga)
         print("Isi keranjangmu adalah :\n")
         for x in aGuest._keranjang :
             print(x[0],"--------",x[1])
@@ -49,16 +49,20 @@ class aGuest(Database.getDB) :
             self.cursor.execute(inputdata)
             self.myDb.commit()
             input("Terimakasih telah melakukan pembelian")
-            aGuest().menuguest()
+            guestMenu().menuguest()
         elif konfirm == 'tidak':
             aGuest._keranjang.clear()
             aGuest._harga.clear()
             print("Isi keranjangmu sudah dihapus semua")
-            aGuest().menuguest()
+            guestMenu().menuguest()
         else :
             print("Masukkan command dengan benar")
-            aGuest().menuguest()
-    
+            guestMenu().menuguest()
+    @abstractmethod        
+    def discount(self):
+        pass
+
+class guestMenu(Database.getDB):
     def menuguest(self):
         Database.getDB().hapusScrn()
         menuGuest =int(input(''' 
@@ -80,10 +84,8 @@ class aGuest(Database.getDB) :
             exit(0)
         else:
             print("Masukkan Command dengan benar")
-            aGuest().menuguest()
+            guestMenu().menuguest()
 
-    @abstractmethod        
-    def discount(self):
-        pass
+
 
 
