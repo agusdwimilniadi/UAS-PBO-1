@@ -2,7 +2,7 @@ import sqlite3
 import os
 from getpass import getpass
 import Database
-
+from prettytable import from_db_cursor
 class HalamanAdmin(Database.getDB):
     def adminmenu(self):
         Database.getDB().hapusScrn()
@@ -53,8 +53,9 @@ class Admin(Database.getDB):
         1. Tambah Barang di Toko
         2. Hapus Barang di Toko
         3. Cek Ketersediaan Barang
-        4. Daftar Membership
-        5. Logout
+        4. Daftar Produk
+        5. Daftar Membership
+        6. Logout
         
         Masukkan Pilihan Menu: 
         '''))
@@ -65,6 +66,8 @@ class Admin(Database.getDB):
         elif menuAdmin == 3:
             Admin().selectData()
         elif menuAdmin == 4:
+            Admin().showProduct()
+        elif menuAdmin == 5:
             Admin().daftarMember()
         else:
             HalamanAdmin().adminmenu()
@@ -125,4 +128,13 @@ class Admin(Database.getDB):
 
                 nb: Masukkan nomor ID pada saat transaksi untuk mendapatkan diskon
             '''.format(nomorMemberFix, nama))
-            
+    def showProduct(self):
+        Database.getDB().hapusScrn()
+        query = "SELECT namaProduct as NAMA, hargaProduct as HARGA, jumlahProduct as JUMLAH from product"
+        self.cursor.execute(query)
+        result = from_db_cursor(self.cursor)
+        print(result)
+
+        input("Klik enter untuk kembali ")
+        Admin().menuAdmin()
+
